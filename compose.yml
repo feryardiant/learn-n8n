@@ -52,10 +52,6 @@ services:
       WHATSAPP_WEBHOOK: ${GOWA_WEBHOOK}
     volumes:
       - ./volumes/whatsapp:/app/storages
-    healthcheck:
-      test: wget --server-response --proxy off --no-verbose --tries=1 --timeout=3 127.0.0.1:3000 -O /dev/null 2>&1 | grep -q 'HTTP/1.1 200 OK'
-      timeout: 5s
-      retries: 3
 
   db:
     image: pgvector/pgvector:pg14
