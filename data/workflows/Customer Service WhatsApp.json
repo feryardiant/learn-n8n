@@ -1,0 +1,1490 @@
+{
+  "name": "Customer Service WhatsApp",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dfca4fd1-b8e0-43eb-8f48-7c6c93eb8abd",
+                    "leftValue": "={{ $json.body.location }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "location"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5d59eaf1-4363-4e43-8401-74c4eececfca",
+                    "leftValue": "={{ $json.body.image.media_path }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6e4fe466-8467-4478-8864-6c98bda310a3",
+                    "leftValue": "={{ $json.body.video.media_path }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "video"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.audio.media_path }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "6fc3fbcc-160c-4679-ba2d-53d1d99f75f7"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "943656f1-49db-4026-a74c-98d0eb6ee2ff",
+                    "leftValue": "={{ $json.body.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -96,
+        -48
+      ],
+      "id": "21153f8e-f633-4772-a119-27ee3444a2e0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gowa",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -672,
+        0
+      ],
+      "id": "8d7fa1b0-9e44-4666-b13b-a43126b6ec78",
+      "name": "WhatsApp Message",
+      "webhookId": "ec17e7c1-111f-42fc-8882-ae003c13455c"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "60602bb1-cd30-427c-8a86-c366490131f4",
+              "name": "type",
+              "value": "text",
+              "type": "string"
+            },
+            {
+              "id": "a60c775b-f906-44c9-b193-e52c1b2ae675",
+              "name": "message",
+              "value": "={{ $json.body.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        320
+      ],
+      "id": "4be12866-9809-418e-90d9-d60b1bdefb90",
+      "name": "Text"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "60602bb1-cd30-427c-8a86-c366490131f4",
+              "name": "type",
+              "value": "location",
+              "type": "string"
+            },
+            {
+              "id": "a60c775b-f906-44c9-b193-e52c1b2ae675",
+              "name": "latitude",
+              "value": "={{ $json.body.location.degreesLatitude }}",
+              "type": "number"
+            },
+            {
+              "id": "7ee86216-d7d7-4980-aa58-c18ce53a2ef3",
+              "name": "longitude",
+              "value": "={{ $json.body.location.degreesLongitude }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        -320
+      ],
+      "id": "0f18aef3-112d-4eac-bd59-cb1cfc631e36",
+      "name": "Location"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "60602bb1-cd30-427c-8a86-c366490131f4",
+              "name": "type",
+              "value": "video",
+              "type": "string"
+            },
+            {
+              "id": "a60c775b-f906-44c9-b193-e52c1b2ae675",
+              "name": "message",
+              "value": "={{ $json.body.video.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "362ad800-baed-47d2-a907-b1c48409523e",
+              "name": "attachment_url",
+              "value": "=http://gowa:3000/{{ $json.body.video.media_path }}",
+              "type": "string"
+            },
+            {
+              "id": "c78c0446-82ac-4c22-916b-bce634c09bb6",
+              "name": "mime_type",
+              "value": "={{ $json.body.video.mime_type }}",
+              "type": "string"
+            },
+            {
+              "id": "97bcf26b-b35f-45c0-917a-bf182a7e92e9",
+              "name": "filename",
+              "value": "={{ $json.body.video.media_path.split('/').last() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        0
+      ],
+      "id": "1932ea82-c571-4edb-a84c-06c7ef13479e",
+      "name": "Video"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "60602bb1-cd30-427c-8a86-c366490131f4",
+              "name": "type",
+              "value": "audio",
+              "type": "string"
+            },
+            {
+              "id": "a60c775b-f906-44c9-b193-e52c1b2ae675",
+              "name": "message",
+              "value": "={{ $json.body.audio.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "362ad800-baed-47d2-a907-b1c48409523e",
+              "name": "attachment_url",
+              "value": "=http://gowa:3000/{{ $json.body.audio.media_path }}",
+              "type": "string"
+            },
+            {
+              "id": "c78c0446-82ac-4c22-916b-bce634c09bb6",
+              "name": "mime_type",
+              "value": "={{ $json.body.audio.mime_type.split(';')[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "1aa6b423-5d49-4b0d-8418-e8cb2199a1ee",
+              "name": "filename",
+              "value": "={{ $json.body.audio.media_path.split('/').last().split(';').first() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        160
+      ],
+      "id": "9b778d62-1365-4d0a-b66e-b611791cd3f8",
+      "name": "Audio"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "60602bb1-cd30-427c-8a86-c366490131f4",
+              "name": "type",
+              "value": "image",
+              "type": "string"
+            },
+            {
+              "id": "a60c775b-f906-44c9-b193-e52c1b2ae675",
+              "name": "message",
+              "value": "={{ $json.body.image.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "362ad800-baed-47d2-a907-b1c48409523e",
+              "name": "attachment_url",
+              "value": "=http://gowa:3000/{{ $json.body.image.media_path }}",
+              "type": "string"
+            },
+            {
+              "id": "c78c0446-82ac-4c22-916b-bce634c09bb6",
+              "name": "mime_type",
+              "value": "={{ $json.body.image.mime_type }}",
+              "type": "string"
+            },
+            {
+              "id": "63eea1b7-5e3a-4007-8f5f-d7337a129de9",
+              "name": "filename",
+              "value": "={{ $json.body.image.media_path.split('/').last() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        -160
+      ],
+      "id": "02770494-cc3f-4115-a9db-cf8b6076432c",
+      "name": "Image"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Message').item.json.body.chat_id }}",
+        "tableName": "n8n_messages",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        784,
+        496
+      ],
+      "id": "9272a00e-1315-4940-aaf3-22fba17387e6",
+      "name": "Memory",
+      "credentials": {
+        "postgres": {
+          "id": "zd6xGtph11qu35kc",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f25152c-9e9c-4368-87d7-eacf3067c6bf",
+              "name": "type",
+              "value": "={{ $json.type }}",
+              "type": "string"
+            },
+            {
+              "id": "8329aa25-4b5e-4668-9485-57fee43d035a",
+              "name": "url",
+              "value": "={{ $json.attachment_url }}",
+              "type": "string"
+            },
+            {
+              "id": "9b790c96-f8b4-42c9-adb9-b99a924b2ba8",
+              "name": "mime_type",
+              "value": "={{ $json.mime_type }}",
+              "type": "string"
+            },
+            {
+              "id": "b7e751f4-6541-4709-9b74-b790fc08d247",
+              "name": "filename",
+              "value": "={{ $json.filename }}",
+              "type": "string"
+            },
+            {
+              "id": "d92d3136-5029-49c4-93ce-0858eba8fcf0",
+              "name": "message",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        0
+      ],
+      "id": "da25dc1e-572e-4b6f-8f52-384a251a7590",
+      "name": "Attachment"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "={{ $json.mime_type }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        592,
+        0
+      ],
+      "id": "84053414-c455-4bd9-931f-0a11774c9c26",
+      "name": "Download",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "XNzQvImAAMkyVwQb",
+          "name": "GoWA Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upload",
+        "bucketName": "attachments",
+        "fileName": "={{ $('Attachment').item.json.filename }}",
+        "additionalFields": {
+          "grantRead": true,
+          "parentFolderKey": "={{ $('Attachment').item.json.type }}"
+        }
+      },
+      "type": "n8n-nodes-base.s3",
+      "typeVersion": 1,
+      "position": [
+        816,
+        0
+      ],
+      "id": "f5b08db9-e3b3-4b61-817f-927a14ced056",
+      "name": "Upload",
+      "alwaysOutputData": false,
+      "credentials": {
+        "s3": {
+          "id": "GKi0RKQNlEtgIL3s",
+          "name": "Local Minio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "attachments",
+          "mode": "list",
+          "cachedResultName": "attachments"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('WhatsApp Message').item.json.body.message.id }}",
+            "caption": "={{ $('Attachment').item.json.message }}",
+            "filename": "={{ $('Attachment').item.json.filename }}",
+            "mimetype": "={{ $('Attachment').item.json.mime_type }}",
+            "filetype": "={{ $('Attachment').item.json.type }}",
+            "timestamp": "={{ $('WhatsApp Message').item.json.body.timestamp }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": true,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "caption",
+              "displayName": "caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "filename",
+              "displayName": "filename",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "filetype",
+              "displayName": "filetype",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "mimetype",
+              "displayName": "mimetype",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1056,
+        0
+      ],
+      "id": "c8ea00b4-0996-4499-995f-159cddbc4eb2",
+      "name": "Store to DB",
+      "credentials": {
+        "postgres": {
+          "id": "zd6xGtph11qu35kc",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "customers",
+          "mode": "list",
+          "cachedResultName": "customers"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "phone",
+              "value": "={{ $('WhatsApp Message').item.json.body.chat_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        960,
+        720
+      ],
+      "id": "28b83519-1fba-4d11-9c50-951ef3ffab30",
+      "name": "Check Customer",
+      "credentials": {
+        "postgres": {
+          "id": "zd6xGtph11qu35kc",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "customers",
+          "mode": "list",
+          "cachedResultName": "customers"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('name', `Nama Customer`, 'string') }}",
+            "address": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('address', `Alamat Customer`, 'string') }}",
+            "phone": "={{ $('WhatsApp Message').item.json.body.chat_id }}"
+          },
+          "matchingColumns": [
+            "phone"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        960,
+        864
+      ],
+      "id": "26e4565e-6292-409b-9668-7602f0d1cbd4",
+      "name": "Store Customer",
+      "credentials": {
+        "postgres": {
+          "id": "zd6xGtph11qu35kc",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        624,
+        864
+      ],
+      "id": "c6fd0be5-dbea-4c46-88b0-4bb4fc868cf0",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "f9QGVySyvVpnQNeu",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Gunakan Tool ini jika customer menanyakan perihal layanan di PT Geo Santara",
+        "tableName": "n8n_knowledge_base",
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        624,
+        720
+      ],
+      "id": "e9a56058-8bbe-4e73-ac98-bf99261aacc7",
+      "name": "Knowledge Base",
+      "credentials": {
+        "postgres": {
+          "id": "zd6xGtph11qu35kc",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "chat_sessions",
+          "mode": "list",
+          "cachedResultName": "chat_sessions"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "customer_id",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('values0_Value', `ID Customer`, 'string') }}"
+            },
+            {
+              "column": "finished_at",
+              "condition": "IS NULL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        1120,
+        720
+      ],
+      "id": "583566b7-55f9-45f7-a943-fdcbd2374b7e",
+      "name": "Check Session",
+      "credentials": {
+        "postgres": {
+          "id": "zd6xGtph11qu35kc",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "chat_sessions",
+          "mode": "list",
+          "cachedResultName": "chat_sessions"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "customer_id": "={{ $fromAI('customer_id') }}",
+            "subject": "={{ $fromAI('subject') }}",
+            "started_at": "={{ $('WhatsApp Message').item.json.body.timestamp }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "customer_id",
+              "displayName": "customer_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "started_at",
+              "displayName": "started_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "finished_at",
+              "displayName": "finished_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        1120,
+        864
+      ],
+      "id": "9832ae09-773b-407e-8abc-a7adc871b1d9",
+      "name": "Store Session",
+      "credentials": {
+        "postgres": {
+          "id": "zd6xGtph11qu35kc",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "phoneNumber": "={{ $('WhatsApp Message').item.json.body.chat_id }}",
+        "message": "={{ $json.output }}",
+        "replyMessageId": "="
+      },
+      "type": "@aldinokemal2104/n8n-nodes-gowa.gowa",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        320
+      ],
+      "id": "6538c51d-aabe-4973-b706-f28c6e1ceb2b",
+      "name": "Send a Response",
+      "credentials": {
+        "goWhatsappApi": {
+          "id": "wCviugAaDOFku63Z",
+          "name": "GOWA account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "readMessage",
+        "phoneOrGroupId": "={{ $json.body.chat_id }}",
+        "messageId": "={{ $json.body.message.id }}"
+      },
+      "type": "@aldinokemal2104/n8n-nodes-gowa.gowa",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -256
+      ],
+      "id": "a9e6bedb-84bf-4658-876c-c1e211dacbf5",
+      "name": "Mark message as read",
+      "credentials": {
+        "goWhatsappApi": {
+          "id": "wCviugAaDOFku63Z",
+          "name": "GOWA account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tugas mu adalah mengidentifikasi pesan pelanggan dan memberikan jawaban yang dibutuhkan sesuai dengan layanan di PT Geo Santara.\n\nPesan: {{ $json.message }}\nPengirim: {{ $('WhatsApp Message').item.json.body.chat_id }}\nPerihal: [Tujuan Obrolan]",
+        "options": {
+          "systemMessage": "=Kamu adalah Agen Customer Service di PT Geo Santara dan kamu bertugas untuk melayani setiap pertanyaan terkait layanan di PT Geo Santara dengan ramah, santai dan bersahaja.\n\n## Rules\n- Selalu gunakan \"kak [Nama Customer]\" untuk menyapa customer\n- Selalu simpan sesi obrolan setelah mendapatkan perihal meskipun kita belum memiliki layanan yang diminta\n- Gunakan tool Check Customer atau Store Customer untuk mendapatkan informasi [ID Customer]\n- Gunakan tool Check Session atau Store Session untuk mendapatkan informasi [ID Session] dan [Perihal] tujuan menghubungi Geo Santara berdasarkan [ID Customer] dari tool Check Customer atau Store Customer\n- Akhiri sesi obrolan dengan menambahkan value {{ $('WhatsApp Message').item.json.body.timestamp }} pada field `finished_at` menggunakan tool Store Session\n\n## Tools\n\n### Knowledge Base\nGunakan tool ini untuk mendapatkan informasi layanan di PT Geo Santara\n\n### Check Customer\nGunakan tool ini untuk mengetahui apakah customer {{ $('WhatsApp Message').item.json.body.chat_id }} sudah pernah terdaftar atau belum dengan field mapping berikut\n\nid: [ID Customer]\nphone: {{ $('WhatsApp Message').item.json.body.chat_id }}\nname: [Nama Customer]\n\n### Store Customer\nGunakan tool ini untuk menyimpan data customer baru dengan field mapping berikut\n\nid: [ID Customer]\nphone: {{ $('WhatsApp Message').item.json.body.chat_id }}\nname: [Nama Customer]\n\n### Check Session\nGunakan tool ini untuk mendapatkan informasi sesi obrolan saat ini dengan field mapping berikut\n\nid: [ID Session]\ncustomer_id: [ID Customer]\nsubject: [Perihal atau Tujuan menghubungi Geo Santara]\nstarted_at: [Waktu mulai obrolan]\nfinished_at: [Waktu selesai obrolan]\n\n### Store Session\nGunakan tool ini untuk menyimpan data sesi obrolan saat ini dengan field mapping berikut\n\nid: [ID Session]\ncustomer_id: [ID Customer]\nsubject: [Perihal atau Tujuan menghubungi Geo Santara]\nstarted_at: [Waktu mulai obrolan]\nfinished_at: [Waktu selesai obrolan]\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        768,
+        320
+      ],
+      "id": "63d8ccc5-c163-4945-8b42-7e1b2aa92c7e",
+      "name": "Customer Service"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        640,
+        496
+      ],
+      "id": "14a78eb0-9d21-43d8-b549-611a6b9c705b",
+      "name": "Agent",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "f9QGVySyvVpnQNeu",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Add Document",
+        "formDescription": "Upload knowledge base document",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Document",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".pdf",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -640,
+        1296
+      ],
+      "id": "9d607008-f417-468b-ae14-72a9ea6d69ec",
+      "name": "On form submission",
+      "webhookId": "e4b13610-c9ce-4587-be6f-7b84b064fb53",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": "n8n_knowledge_base",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        -432,
+        1296
+      ],
+      "id": "a6664bcc-af29-4729-b2fa-b1a8650e1228",
+      "name": "Postgres PGVector Store",
+      "credentials": {
+        "postgres": {
+          "id": "zd6xGtph11qu35kc",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        1504
+      ],
+      "id": "472c9997-ab21-4e62-a2f0-4bb3738ca1ce",
+      "name": "Embeddings Google Gemini1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "f9QGVySyvVpnQNeu",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "loader": "pdfLoader",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -320,
+        1504
+      ],
+      "id": "3827615f-c6c5-499e-a48e-9207425ec967",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5b996fcc-b5fc-44a7-a94e-878c68d9529f",
+              "leftValue": "={{ $json.body.message }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -464,
+        0
+      ],
+      "id": "bb08353b-664c-4457-bec1-2606ab416830",
+      "name": "Is a Message"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-pro",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-pro"
+        },
+        "inputType": "binary",
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        160
+      ],
+      "id": "f23a308d-d1b3-4c54-9960-b80a03814cc5",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "f9QGVySyvVpnQNeu",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "64ea05d7-332b-4ca8-9509-f180e25cd756",
+              "leftValue": "={{ $('Attachment').item.json.type }}",
+              "rightValue": "audio",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        816,
+        160
+      ],
+      "id": "31e06920-d151-4bec-b7fe-b586175ec557",
+      "name": "Is an Audio",
+      "disabled": true
+    }
+  ],
+  "pinData": {
+    "Location": [
+      {
+        "json": {
+          "type": "location",
+          "latitude": -6.9307847,
+          "longitude": 109.7133821
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Location",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Image",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Message": {
+      "main": [
+        [
+          {
+            "node": "Is a Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Customer Service",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text": {
+      "main": [
+        [
+          {
+            "node": "Customer Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Location": {
+      "main": [
+        []
+      ]
+    },
+    "Video": {
+      "main": [
+        [
+          {
+            "node": "Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audio": {
+      "main": [
+        [
+          {
+            "node": "Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image": {
+      "main": [
+        [
+          {
+            "node": "Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attachment": {
+      "main": [
+        [
+          {
+            "node": "Download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download": {
+      "main": [
+        [
+          {
+            "node": "Upload",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is an Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload": {
+      "main": [
+        [
+          {
+            "node": "Store to DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Customer": {
+      "ai_tool": [
+        [
+          {
+            "node": "Customer Service",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Customer": {
+      "ai_tool": [
+        [
+          {
+            "node": "Customer Service",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Knowledge Base",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Knowledge Base": {
+      "ai_tool": [
+        [
+          {
+            "node": "Customer Service",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Session": {
+      "ai_tool": [
+        [
+          {
+            "node": "Customer Service",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Session": {
+      "ai_tool": [
+        [
+          {
+            "node": "Customer Service",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Service": {
+      "main": [
+        [
+          {
+            "node": "Send a Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Customer Service",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is a Message": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Mark message as read",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Is an Audio": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "26bdf452-f4ef-448e-8338-3ce0402159e1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e72fa3548b9561418743ba9aab864d38e6b7187a6167be2592269ced2c80f71e"
+  },
+  "id": "nvFjeAEOlBdUs29e",
+  "tags": [
+    {
+      "createdAt": "2025-07-31T13:14:14.371Z",
+      "updatedAt": "2025-07-31T13:14:14.371Z",
+      "id": "k8GI58WpFTG2MzZu",
+      "name": "WhatsApp"
+    }
+  ]
+}
