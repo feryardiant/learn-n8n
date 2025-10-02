@@ -19,6 +19,10 @@ Desktop.ini
 .env.*
 .env
 
+# Local Docker Compose Files
+# --------------------------
+compose.*.yml
+
 # But Keep these
 # --------------------------
 !.env.*.example
